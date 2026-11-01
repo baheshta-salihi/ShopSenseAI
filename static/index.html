@@ -1,0 +1,725 @@
+
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#39216b">
+    <meta name="description" content="ShopSense AI helps customers discover, compare and choose products through smart shopping recommendations.">
+    <title>ShopSense AI | Smart Shopping</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+
+<header class="site-header">
+    <nav class="navbar">
+        <a href="/" class="brand">
+            <span class="brand-icon">S</span>
+            <span>ShopSense <span class="brand-ai">AI</span></span>
+        </a>
+
+        <div class="nav-actions">
+            <label for="languageSelect" class="language-label"
+                   data-i18n="languageLabel">Language</label>
+
+            <select id="languageSelect" aria-label="Choose language">
+                <option value="en">English</option>
+                <option value="fa">دری</option>
+                <option value="ps">پښتو</option>
+            </select>
+        </div>
+    </nav>
+
+    <div class="hero">
+        <div class="hero-badge" data-i18n="heroBadge">
+            SMART SHOPPING EXPERIENCE
+        </div>
+
+        <h1 data-i18n="heroTitle">
+            Find what you love. Shop smarter.
+        </h1>
+
+        <p data-i18n="heroText">
+            Discover products that match your needs, style, and budget.
+        </p>
+
+        <a href="#products" class="hero-button" data-i18n="heroButton">
+            Explore Products ↓
+        </a>
+    </div>
+</header>
+
+<main class="container">
+
+    <!-- PRODUCT SEARCH AND FILTERS -->
+
+    <section class="search-panel" id="search">
+        <div class="section-heading">
+            <span class="eyebrow" data-i18n="eyebrow">
+                YOUR NEXT FAVORITE
+            </span>
+
+            <h2 data-i18n="searchTitle">
+                What are you looking for?
+            </h2>
+
+            <p data-i18n="searchText">
+                Search, compare, and discover products with ease.
+            </p>
+        </div>
+
+        <div class="search-controls">
+
+            <input
+                type="search"
+                id="searchInput"
+                data-i18n-placeholder="searchPlaceholder"
+                placeholder="Search products..."
+                aria-label="Search products"
+            >
+
+            <select id="categoryFilter" aria-label="Category">
+                <option value="" data-i18n="allCategories">
+                    All categories
+                </option>
+
+                <option value="Electronics" data-i18n="electronics">
+                    Electronics
+                </option>
+
+                <option value="Accessories" data-i18n="accessories">
+                    Accessories
+                </option>
+
+                <option value="Stationery" data-i18n="stationery">
+                    Stationery
+                </option>
+
+                <option value="Home" data-i18n="homeCategory">
+                    Home
+                </option>
+            </select>
+
+            <label for="maxPrice" data-i18n="maxPrice">
+                Maximum price ($)
+            </label>
+
+            <input
+                type="text"
+                id="maxPrice"
+                name="maxPrice"
+                placeholder="Enter maximum price"
+                inputmode="decimal"
+                autocomplete="off"
+            >
+
+            <button
+                type="button"
+                id="searchButton"
+                class="primary-button"
+                data-i18n="searchButton">
+                Search
+            </button>
+
+            <button
+                type="button"
+                id="resetButton"
+                class="secondary-button"
+                data-i18n="resetButton">
+                Show All
+            </button>
+
+        </div>
+    </section>
+
+    <!-- AI RECOMMENDATIONS -->
+
+    <section class="search-panel smart-tools-panel" id="recommendations">
+
+        <div class="section-heading">
+            <span class="eyebrow">SHOPSENSE AI</span>
+
+            <h2 data-i18n="recommendTitle">
+                Find Your Best Match
+            </h2>
+
+            <p data-i18n="recommendText">
+                Tell us what you need and we will suggest matching products.
+            </p>
+        </div>
+
+        <div class="search-controls">
+
+            <input
+                type="text"
+                id="recommendInput"
+                data-i18n-placeholder="recommendPlaceholder"
+                placeholder="e.g. affordable laptop for study"
+                autocomplete="off"
+            >
+
+            <button
+                type="button"
+                id="recommendButton"
+                class="primary-button"
+                data-i18n="recommendButton">
+                Get Recommendations
+            </button>
+
+        </div>
+
+        <p
+            id="recommendMessage"
+            class="result-message"
+            data-i18n="noRecommendations">
+            No recommendations yet.
+        </p>
+
+        <div
+            id="recommendationList"
+            class="product-grid">
+        </div>
+
+    </section>
+
+    <!-- PRODUCT COMPARISON -->
+
+    <section class="search-panel smart-tools-panel" id="comparison">
+
+        <div class="section-heading">
+            <span class="eyebrow">SMART CHOICE</span>
+
+            <h2 data-i18n="compareTitle">
+                Compare Products
+            </h2>
+
+            <p data-i18n="compareText">
+                Choose products in the product cards and compare them here.
+            </p>
+        </div>
+
+        <div class="search-controls">
+
+            <button
+                type="button"
+                id="compareButton"
+                class="primary-button"
+                data-i18n="compareButton">
+                Compare Selected
+            </button>
+
+            <button
+                type="button"
+                id="clearCompareButton"
+                class="secondary-button"
+                data-i18n="clearCompareButton">
+                Clear Selection
+            </button>
+
+        </div>
+
+        <div
+            id="comparisonResults"
+            class="product-grid">
+        </div>
+
+    </section>
+
+    <!-- SHOPPING CART -->
+
+    <section class="search-panel smart-tools-panel" id="shoppingCart">
+
+        <div class="section-heading">
+            <span class="eyebrow">DEMO CHECKOUT</span>
+
+            <h2 data-i18n="cartTitle">
+                Shopping Cart
+            </h2>
+
+            <p data-i18n="cartText">
+                Add products from the cards to create a demo order.
+            </p>
+        </div>
+
+        <div id="cartItems"></div>
+
+        <p
+            id="cartMessage"
+            class="result-message"
+            data-i18n="cartEmpty">
+            Your cart is empty.
+        </p>
+
+        <button
+            type="button"
+            id="placeOrderButton"
+            class="primary-button"
+            disabled
+            data-i18n="placeOrderButton">
+            Place Demo Order
+        </button>
+
+    </section>
+
+    <!-- AI SHOPPING ASSISTANT -->
+
+    <section class="search-panel smart-tools-panel" id="shoppingAssistant">
+
+        <div class="section-heading">
+            <span class="eyebrow">SHOPSENSE AI</span>
+
+            <h2 data-i18n="assistantTitle">
+                AI Shopping Assistant
+            </h2>
+
+            <p data-i18n="assistantText">
+                Ask questions about products and get answers based on the available shop information.
+            </p>
+        </div>
+
+        <div
+            id="assistantMessages"
+            class="assistant-messages"
+            aria-live="polite"
+            aria-relevant="additions">
+
+            <p class="result-message" data-i18n="assistantWelcome">
+                Hello! Ask me about products, prices, features, or available shop information.
+            </p>
+
+        </div>
+
+        <form id="assistantForm" class="search-controls">
+
+            <input
+                type="text"
+                id="assistantQuestion"
+                data-i18n-placeholder="assistantPlaceholder"
+                placeholder="Ask a shopping question..."
+                autocomplete="off"
+                required
+            >
+
+            <button
+                type="submit"
+                id="assistantSendButton"
+                class="primary-button"
+                data-i18n="assistantSend">
+                Ask ShopSense AI
+            </button>
+
+        </form>
+
+        <p
+            id="assistantStatus"
+            class="result-message"
+            role="status">
+        </p>
+
+    </section>
+
+    <!-- PRODUCT COLLECTION -->
+
+    <section id="products" class="products-section">
+
+        <div class="products-heading">
+
+            <div>
+                <span class="eyebrow" data-i18n="collectionLabel">
+                    OUR COLLECTION
+                </span>
+
+                <h2 data-i18n="productsTitle">
+                    Explore Products
+                </h2>
+            </div>
+
+            <select id="sortFilter" aria-label="Sort products">
+
+                <option value="price_asc" data-i18n="sortLow">
+                    Price: Low to High
+                </option>
+
+                <option value="price_desc" data-i18n="sortHigh">
+                    Price: High to Low
+                </option>
+
+                <option value="name_asc" data-i18n="sortName">
+                    Name: A to Z
+                </option>
+
+            </select>
+
+        </div>
+
+        <p
+            id="resultMessage"
+            class="result-message"
+            data-i18n="loading">
+            Loading products...
+        </p>
+
+        <div
+            id="productList"
+            class="product-grid">
+        </div>
+
+    </section>
+
+    <!-- BENEFITS -->
+
+    <section class="why-section">
+
+        <div class="why-item">
+            <span class="why-icon">✦</span>
+
+            <h3 data-i18n="benefit1Title">
+                Smarter Discovery
+            </h3>
+
+            <p data-i18n="benefit1Text">
+                Find products that fit your needs.
+            </p>
+        </div>
+
+        <div class="why-item">
+            <span class="why-icon">◇</span>
+
+            <h3 data-i18n="benefit2Title">
+                Budget Friendly
+            </h3>
+
+            <p data-i18n="benefit2Text">
+                Explore options within your budget.
+            </p>
+        </div>
+
+        <div class="why-item">
+            <span class="why-icon">♡</span>
+
+            <h3 data-i18n="benefit3Title">
+                Made for Everyone
+            </h3>
+
+            <p data-i18n="benefit3Text">
+                A simpler shopping experience for all.
+            </p>
+        </div>
+
+    </section>
+
+</main>
+
+<!-- FOOTER -->
+
+<footer class="site-footer">
+
+    <div class="footer-main">
+
+        <div class="footer-brand">
+
+            <a href="/" class="brand footer-logo">
+                <span class="brand-icon">S</span>
+                <span>ShopSense <span class="brand-ai">AI</span></span>
+            </a>
+
+            <p data-i18n="footerText">
+                A smarter way to discover products and make shopping decisions.
+            </p>
+
+        </div>
+
+        <div class="footer-links">
+
+            <h3 data-i18n="quickLinks">
+                Quick Links
+            </h3>
+
+            <a href="/" data-i18n="footerHome">Home</a>
+
+            <a href="#products" data-i18n="footerProducts">
+                Products
+            </a>
+
+            <a href="/docs" data-i18n="footerApi">
+                API Documentation
+            </a>
+
+        </div>
+
+        <div class="footer-note">
+
+            <h3 data-i18n="ourMission">
+                Our Mission
+            </h3>
+
+            <p data-i18n="missionText">
+                Making product discovery simpler and more accessible.
+            </p>
+
+        </div>
+
+    </div>
+
+    <div class="footer-bottom">
+
+        <p>
+            © 2026 ShopSense AI.
+            <span data-i18n="rights">All rights reserved.</span>
+        </p>
+
+        <p data-i18n="footerMade">
+            Designed for smarter shopping.
+        </p>
+
+    </div>
+
+</footer>
+
+<!-- TRANSLATIONS -->
+
+<script>
+const translations = {
+
+    en: {
+        languageLabel: "Language",
+        heroBadge: "SMART SHOPPING EXPERIENCE",
+        heroTitle: "Find what you love. Shop smarter.",
+        heroText: "Discover products that match your needs, style, and budget.",
+        heroButton: "Explore Products ↓",
+        eyebrow: "YOUR NEXT FAVORITE",
+        searchTitle: "What are you looking for?",
+        searchText: "Search, compare, and discover products with ease.",
+        searchPlaceholder: "Search products...",
+        allCategories: "All categories",
+        electronics: "Electronics",
+        accessories: "Accessories",
+        stationery: "Stationery",
+        homeCategory: "Home",
+        maxPrice: "Maximum price ($)",
+        searchButton: "Search",
+        resetButton: "Show All",
+        collectionLabel: "OUR COLLECTION",
+        productsTitle: "Explore Products",
+        sortLow: "Price: Low to High",
+        sortHigh: "Price: High to Low",
+        sortName: "Name: A to Z",
+        loading: "Loading products...",
+        benefit1Title: "Smarter Discovery",
+        benefit1Text: "Find products that fit your needs.",
+        benefit2Title: "Budget Friendly",
+        benefit2Text: "Explore options within your budget.",
+        benefit3Title: "Made for Everyone",
+        benefit3Text: "A simpler shopping experience for all.",
+        footerText: "A smarter way to discover products and make shopping decisions.",
+        quickLinks: "Quick Links",
+        footerHome: "Home",
+        footerProducts: "Products",
+        footerApi: "API Documentation",
+        ourMission: "Our Mission",
+        missionText: "Making product discovery simpler and more accessible.",
+        rights: "All rights reserved.",
+        footerMade: "Designed for smarter shopping.",
+        recommendTitle: "Find Your Best Match",
+        recommendText: "Tell us what you need and we will suggest matching products.",
+        recommendPlaceholder: "e.g. affordable laptop for study",
+        recommendButton: "Get Recommendations",
+        recommendationResults: "Recommended Products",
+        compareTitle: "Compare Products",
+        compareText: "Choose products in the product cards and compare them here.",
+        compareButton: "Compare Selected",
+        clearCompareButton: "Clear Selection",
+        cartTitle: "Shopping Cart",
+        cartText: "Add products from the cards to create a demo order.",
+        placeOrderButton: "Place Demo Order",
+        cartEmpty: "Your cart is empty.",
+        selectForCompare: "Select to compare",
+        addToCart: "Add to Cart",
+        addToCompare: "Compare",
+        removeFromCart: "Remove",
+        noRecommendations: "No recommendations yet.",
+        assistantTitle: "AI Shopping Assistant",
+        assistantText: "Ask questions about products and get answers based on the available shop information.",
+        assistantWelcome: "Hello! Ask me about products, prices, features, or available shop information.",
+        assistantPlaceholder: "Ask a shopping question...",
+        assistantSend: "Ask ShopSense AI"
+    },
+
+    fa: {
+        languageLabel: "زبان",
+        heroBadge: "تجربه خرید هوشمند",
+        heroTitle: "محصول دلخواهت را هوشمندانه پیدا کن",
+        heroText: "محصولات مناسب نیاز، سلیقه و بودجه خود را پیدا کن.",
+        heroButton: "دیدن محصولات ↓",
+        eyebrow: "انتخاب بعدی شما",
+        searchTitle: "دنبال چه چیزی هستید؟",
+        searchText: "محصولات را به‌آسانی جستجو و مقایسه کنید.",
+        searchPlaceholder: "جستجوی محصولات...",
+        allCategories: "تمام دسته‌بندی‌ها",
+        electronics: "وسایل الکترونیکی",
+        accessories: "لوازم جانبی",
+        stationery: "لوازم‌التحریر",
+        homeCategory: "خانه",
+        maxPrice: "حداکثر قیمت (دالر)",
+        searchButton: "جستجو",
+        resetButton: "نمایش همه",
+        collectionLabel: "مجموعه محصولات",
+        productsTitle: "محصولات را ببینید",
+        sortLow: "قیمت: از کم به زیاد",
+        sortHigh: "قیمت: از زیاد به کم",
+        sortName: "نام: الف تا ی",
+        loading: "محصولات در حال بارگذاری است...",
+        benefit1Title: "جستجوی هوشمند",
+        benefit1Text: "محصولات مناسب نیاز خود را پیدا کنید.",
+        benefit2Title: "مناسب بودجه",
+        benefit2Text: "گزینه‌های متناسب با بودجه خود را ببینید.",
+        benefit3Title: "برای همه",
+        benefit3Text: "تجربه خرید ساده‌تر برای همگان.",
+        footerText: "راهی هوشمندانه برای یافتن محصولات و انتخاب بهتر.",
+        quickLinks: "لینک‌های سریع",
+        footerHome: "صفحه اصلی",
+        footerProducts: "محصولات",
+        footerApi: "مستندات API",
+        ourMission: "هدف ما",
+        missionText: "ساده‌تر و در دسترس‌تر ساختن جستجوی محصولات.",
+        rights: "تمام حقوق محفوظ است.",
+        footerMade: "برای خرید هوشمندانه‌تر طراحی شده است.",
+        recommendTitle: "محصول مناسب خود را پیدا کنید",
+        recommendText: "نیاز خود را بنویسید تا محصولات مناسب پیشنهاد شوند.",
+        recommendPlaceholder: "مثلاً لپ‌تاپ ارزان برای درس خواندن",
+        recommendButton: "پیشنهاد محصولات",
+        recommendationResults: "محصولات پیشنهادی",
+        compareTitle: "مقایسه محصولات",
+        compareText: "محصولات را در کارت‌های پایین انتخاب کرده و اینجا مقایسه کنید.",
+        compareButton: "مقایسه انتخاب‌شده‌ها",
+        clearCompareButton: "پاک‌کردن انتخاب‌ها",
+        cartTitle: "سبد خرید",
+        cartText: "برای ساخت سفارش آزمایشی، محصولات را از کارت‌ها اضافه کنید.",
+        placeOrderButton: "ثبت سفارش آزمایشی",
+        cartEmpty: "سبد خرید شما خالی است.",
+        selectForCompare: "انتخاب برای مقایسه",
+        addToCart: "افزودن به سبد",
+        addToCompare: "مقایسه",
+        removeFromCart: "حذف",
+        noRecommendations: "هنوز پیشنهادی وجود ندارد.",
+        assistantTitle: "دستیار هوشمند خرید",
+        assistantText: "درباره محصولات بپرسید و بر اساس اطلاعات موجود فروشگاه پاسخ بگیرید.",
+        assistantWelcome: "سلام! درباره محصولات، قیمت‌ها، ویژگی‌ها یا اطلاعات فروشگاه از من بپرسید.",
+        assistantPlaceholder: "سوال خرید خود را بنویسید...",
+        assistantSend: "پرسش از هوش مصنوعی"
+    },
+
+    ps: {
+        languageLabel: "ژبه",
+        heroBadge: "د هوښیار پېرود تجربه",
+        heroTitle: "خپل د خوښې توکي په هوښیارۍ ومومئ",
+        heroText: "هغه توکي ومومئ چې ستاسو اړتیاوو او بودیجې سره برابر وي.",
+        heroButton: "توکي وګورئ ↓",
+        eyebrow: "ستاسو راتلونکی غوره انتخاب",
+        searchTitle: "تاسو د څه په لټه کې یاست؟",
+        searchText: "توکي په اسانۍ ولټوئ او پرتله یې کړئ.",
+        searchPlaceholder: "توکي ولټوئ...",
+        allCategories: "ټولې کټګورۍ",
+        electronics: "برېښنايي وسایل",
+        accessories: "ملحقات",
+        stationery: "قرطاسیه",
+        homeCategory: "کور",
+        maxPrice: "لوړه بیه (ډالر)",
+        searchButton: "لټون",
+        resetButton: "ټول وښایئ",
+        collectionLabel: "زموږ د توکو ټولګه",
+        productsTitle: "توکي وګورئ",
+        sortLow: "بیه: له ټیټې تر لوړې",
+        sortHigh: "بیه: له لوړې تر ټیټې",
+        sortName: "نوم: الف تر یا",
+        loading: "توکي بارېږي...",
+        benefit1Title: "هوښیار لټون",
+        benefit1Text: "د خپلو اړتیاوو مناسب توکي ومومئ.",
+        benefit2Title: "ستاسو له بودیجې سره برابر",
+        benefit2Text: "د خپلې بودیجې مطابق انتخابونه وګورئ.",
+        benefit3Title: "د ټولو لپاره",
+        benefit3Text: "د هر چا لپاره د پېرود اسانه تجربه.",
+        footerText: "د توکو موندلو او غوره پرېکړې لپاره هوښیار لاره.",
+        quickLinks: "چټک لینکونه",
+        footerHome: "کورپاڼه",
+        footerProducts: "توکي",
+        footerApi: "د API لارښود",
+        ourMission: "زموږ موخه",
+        missionText: "د توکو موندل اسانه او د لاسرسي وړ کول.",
+        rights: "ټول حقوق خوندي دي.",
+        footerMade: "د هوښیار پېرود لپاره جوړ شوی.",
+        recommendTitle: "خپل مناسب توکي ومومئ",
+        recommendText: "خپله اړتیا ولیکئ، موږ به مناسب توکي درته وړاندیز کړو.",
+        recommendPlaceholder: "لکه: د زده‌کړې لپاره ارزانه لپ‌ټاپ",
+        recommendButton: "توکي وړاندیز کړئ",
+        recommendationResults: "وړاندیز شوي توکي",
+        compareTitle: "توکي پرتله کړئ",
+        compareText: "لاندې د توکو په کارتونو کې توکي وټاکئ او دلته یې پرتله کړئ.",
+        compareButton: "ټاکل شوي پرتله کړئ",
+        clearCompareButton: "ټاکنه پاکه کړئ",
+        cartTitle: "د پېرودلو ټوکرۍ",
+        cartText: "د ازمایښتي فرمایش لپاره توکي له کارتونو څخه ورزیات کړئ.",
+        placeOrderButton: "ازمایښتي فرمایش ثبت کړئ",
+        cartEmpty: "ستاسو د پېرودلو ټوکرۍ تشه ده.",
+        selectForCompare: "د پرتله کولو لپاره وټاکئ",
+        addToCart: "ټوکرۍ ته ورزیات کړئ",
+        addToCompare: "پرتله",
+        removeFromCart: "لرې کول",
+        noRecommendations: "تر اوسه وړاندیز نشته.",
+        assistantTitle: "د پېرودلو هوښیار مرستیال",
+        assistantText: "د توکو په اړه پوښتنې وکړئ او د پلورنځي د شته معلوماتو له مخې ځواب ترلاسه کړئ.",
+        assistantWelcome: "سلام! د توکو، بیو، ځانګړتیاوو یا د پلورنځي د معلوماتو په اړه پوښتنه وکړئ.",
+        assistantPlaceholder: "د پېرودلو پوښتنه ولیکئ...",
+        assistantSend: "له ShopSense AI څخه وپوښتئ"
+    }
+};
+
+// ==================================================
+// LANGUAGE SYSTEM
+// ==================================================
+
+function setLanguage(language) {
+    const dictionary = translations[language] || translations.en;
+
+    document.documentElement.lang = language;
+    document.documentElement.dir =
+        language === "en" ? "ltr" : "rtl";
+
+    document.querySelectorAll("[data-i18n]").forEach(element => {
+        const key = element.dataset.i18n;
+
+        if (dictionary[key]) {
+            element.textContent = dictionary[key];
+        }
+    });
+
+    document.querySelectorAll("[data-i18n-placeholder]").forEach(element => {
+        const key = element.dataset.i18nPlaceholder;
+
+        if (dictionary[key]) {
+            element.placeholder = dictionary[key];
+        }
+    });
+
+    document.body.classList.toggle(
+        "rtl-layout",
+        language !== "en"
+    );
+}
+
+const languageSelect = document.getElementById("languageSelect");
+
+languageSelect.addEventListener("change", event => {
+    setLanguage(event.target.value);
+});
+
+setLanguage(languageSelect.value || "en");
+</script>
+
+<!-- MAIN JAVASCRIPT -->
+
+<script src="/static/app.js" defer></script>
+
+</body>
+</html>
